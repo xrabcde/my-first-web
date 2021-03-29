@@ -6,9 +6,9 @@
 </head>
 <body>
 <h1>회원 가입 결과</h1>
-이름 : {{name}}
+{{#users}}
+이름 : {{this.name}}, 나이 : {{this.age}}
 <br />
-<br />
-나이 : {{age}}
+{{/users}}
 </body>
 </html>

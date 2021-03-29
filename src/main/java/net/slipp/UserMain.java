@@ -1,6 +1,8 @@
 package net.slipp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -8,16 +10,14 @@ import static spark.Spark.*;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-public class HelloWorld {
+public class UserMain {
     public static void main(String[] args) {
         staticFiles.location("/static"); // Static files
+
 //        get("/hello/:name", (req, res) -> {
 //            return "Hello : " + req.params(":name");
 //        });
 
-        get("/hello", (req, res) -> {
-            return "Get Hello : " + req.queryParams("name") + " 나이는 : " + req.queryParams("age");
-        });
 //        post("/hello", (req, res) -> {
 //            return "Post Hello : " + req.queryParams("name") + " 나이는 : " + req.queryParams("age");
 //        });
@@ -33,10 +33,15 @@ public class HelloWorld {
 //                    "</html>";
 //        });
 
-        post("/hello", (req, res) -> {
+        List<User> users = new ArrayList<>();
+
+        post("/users", (req, res) -> {
+            User user = new User();
+            user.setName(req.queryParams("name"));
+            user.setAge(req.queryParams("age"));
+            users.add(user);
             Map<String, Object> model = new HashMap<>();
-            model.put("name", req.queryParams("name"));
-            model.put("age", req.queryParams("age"));
+            model.put("users", users);
 
             return render(model, "result.html");
         });
